@@ -1,35 +1,27 @@
-# Sample Data & Testing Guidelines 🧪
+# VeraFi Test Samples 🧪
 
-This directory contains test datasets and assets for testing and pitching **VeraFi**.
-
----
-
-## 📂 Preloaded Test Cases
-
-### 1. `kirana_store` (Healthy Profile)
-- **Store**: Sharma Ji Kirana & General Store (Lucknow)
-- **Business Type**: Retail grocery and household essentials.
-- **Pattern**: Daily sales inflows (₹2,500 - ₹4,200), regular milk/inventory restocking outflows, 6 active recorded days.
-- **Expected VeraScore**: **~745 (Grade A, Low Risk)**
-- **Max Microloan Recommended**: **₹35,000**
-- **Use Case in Pitch**: Shows how a consistent local store with 0 formal bank statements qualifies easily for a working capital loan.
+This directory contains realistic test assets and datasets for testing and pitching **VeraFi**.
 
 ---
 
-### 2. `tea_stall` (Moderate Profile)
-- **Store**: Raju Chai & Snacks Corner (Kanpur)
-- **Business Type**: Tea and street snacks.
-- **Pattern**: Smaller cash tickets, daily inventory purchases (milk, tea, sugar), 5 active recorded days.
-- **Expected VeraScore**: **~685 (Grade B+, Moderate Risk)**
-- **Max Microloan Recommended**: **₹20,000**
-- **Use Case in Pitch**: Demonstrates daily micro-deduction repayment recommendation.
+## 📸 Test Images for Drag-and-Drop / Upload
+
+You can upload these images directly in the VeraFi frontend or via `POST /api/upload-ledger`:
+
+### 1. `sample_khatabook_1.jpg`
+- **Type**: Physical handwritten *Bahi-Khata* ledger notebook.
+- **Details**: Ruled notebook paper with columns for Date (दिनांक), Particulars (विवरण - Rakesh, Atta, Suresh, Dal, Sharma Ji), Jama/Credit (जमा), Udhar/Debit (उधार), and Running Balance (बकाया).
+- **Ideal For**: Testing dual-entry ledger extraction and math consistency verification.
+
+### 2. `sample_receipt_1.jpg`
+- **Type**: Handwritten grocery cash memo receipt from *Gupta General Store*.
+- **Details**: Serial number #1489, dated bill, line items (Sugar, Basmati Rice, Fortune Oil, Atta, Moong Dal), total amount (₹2,205), PAID stamp, and merchant signature.
+- **Ideal For**: Testing single-receipt invoice OCR extraction.
 
 ---
 
-## 📸 Real Handwritten Photos
-Teammate 3 can add high-resolution photos of handwritten paper ledgers or receipts into this folder:
-- `sample_khatabook_1.jpg` (Hindi/English mix)
-- `sample_receipt_1.jpg`
+## ⚡ Built-in 1-Click UI Samples
 
-These can be tested against the live Gemini Vision endpoint (`POST /api/upload-ledger`).
-
+In the web application, you can also test without dragging any files by clicking the quick demo buttons at the top of the upload box:
+- **Kirana Store Sample** $\rightarrow$ Sharma Ji Kirana Store (healthy credit profile, 736 VeraScore).
+- **Chai Stall Sample** $\rightarrow$ Raju Chai Corner (daily street vendor profile, 685 VeraScore).
