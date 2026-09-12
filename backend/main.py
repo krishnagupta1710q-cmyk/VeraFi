@@ -50,57 +50,58 @@ app.add_middleware(
 
 @app.on_event("startup")
 def seed_initial_loans():
-    """Seeds initial demo loans if database table is empty."""
+    """Seeds initial demo loans if they don't already exist in database."""
     from database import SessionLocal
     db = SessionLocal()
     try:
-        if db.query(Loan).count() == 0:
-            seed_data = [
-                Loan(
-                    id="loan_101",
-                    merchant_name="Sharma Ji Kirana Store",
-                    business_type="Grocery & Essentials",
-                    location="Lucknow, UP",
-                    requested_amount=25000,
-                    approved_amount=25000,
-                    verascore=745,
-                    risk_level="Low Risk",
-                    monthly_turnover=42500,
-                    status="pending",
-                    applied_at="2 hours ago",
-                    ledger_id="ledg_8912739"
-                ),
-                Loan(
-                    id="loan_102",
-                    merchant_name="Raju Chai & Snacks Corner",
-                    business_type="Tea & Street Food",
-                    location="Kanpur, UP",
-                    requested_amount=15000,
-                    approved_amount=15000,
-                    verascore=685,
-                    risk_level="Moderate Risk",
-                    monthly_turnover=26800,
-                    status="pending",
-                    applied_at="5 hours ago",
-                    ledger_id="ledg_4412981"
-                ),
-                Loan(
-                    id="loan_103",
-                    merchant_name="Verma Dairy & Sweets",
-                    business_type="Dairy Farm",
-                    location="Varanasi, UP",
-                    requested_amount=35000,
-                    approved_amount=None,
-                    verascore=590,
-                    risk_level="High Risk",
-                    monthly_turnover=19000,
-                    status="rejected",
-                    applied_at="1 day ago",
-                    ledger_id="ledg_2139044"
-                )
-            ]
-            db.add_all(seed_data)
-            db.commit()
+        seed_data = [
+            Loan(
+                id="loan_101",
+                merchant_name="Sharma Ji Kirana Store",
+                business_type="Grocery & Essentials",
+                location="Lucknow, UP",
+                requested_amount=25000,
+                approved_amount=25000,
+                verascore=745,
+                risk_level="Low Risk",
+                monthly_turnover=42500,
+                status="pending",
+                applied_at="2 hours ago",
+                ledger_id="ledg_8912739"
+            ),
+            Loan(
+                id="loan_102",
+                merchant_name="Raju Chai & Snacks Corner",
+                business_type="Tea & Street Food",
+                location="Kanpur, UP",
+                requested_amount=15000,
+                approved_amount=15000,
+                verascore=685,
+                risk_level="Moderate Risk",
+                monthly_turnover=26800,
+                status="pending",
+                applied_at="5 hours ago",
+                ledger_id="ledg_4412981"
+            ),
+            Loan(
+                id="loan_103",
+                merchant_name="Verma Dairy & Sweets",
+                business_type="Dairy Farm",
+                location="Varanasi, UP",
+                requested_amount=35000,
+                approved_amount=None,
+                verascore=590,
+                risk_level="High Risk",
+                monthly_turnover=19000,
+                status="rejected",
+                applied_at="1 day ago",
+                ledger_id="ledg_2139044"
+            )
+        ]
+        for item in seed_data:
+            if not db.query(Loan).filter(Loan.id == item.id).first():
+                db.add(item)
+        db.commit()
     finally:
         db.close()
 
