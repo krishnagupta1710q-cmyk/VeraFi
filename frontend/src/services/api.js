@@ -8,31 +8,41 @@ import { SAMPLE_DATASETS, INITIAL_LENDER_LOANS } from '../mockData';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
 export async function uploadLedgerImage(file, sampleKey = null) {
-  // If user selected a quick preloaded sample or didn't upload a file
+  // Quick demo sample buttons — return instantly without hitting backend
   if (sampleKey && SAMPLE_DATASETS[sampleKey]) {
     return SAMPLE_DATASETS[sampleKey];
   }
 
-  // Attempt real backend call
-  try {
-    const formData = new FormData();
-    if (file) {
+  // Real file upload — try backend first
+  if (file) {
+    try {
+      const formData = new FormData();
       formData.append('file', file);
+
+      const response = await fetch(`${API_BASE_URL}/upload-ledger`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('[VeraFi] Backend response received:', data);
+        return data;
+      } else {
+        console.warn(`[VeraFi] Backend returned ${response.status}. Using mock fallback.`);
+      }
+    } catch (err) {
+      console.warn('[VeraFi] Backend offline. Using mock data for demo.', err.message);
     }
 
-    const response = await fetch(`${API_BASE_URL}/upload-ledger`, {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (response.ok) {
-      return await response.json();
-    }
-  } catch (err) {
-    console.warn('Backend not detected. Using client-side mock data fallback.', err);
+    // Backend offline fallback — use tea_stall so data visibly changes
+    return {
+      ...SAMPLE_DATASETS.tea_stall,
+      merchant_name: file.name.replace(/\.[^.]+$/, '') + ' (Demo Data)',
+    };
   }
 
-  // Fallback to default mock dataset
+  // No file and no sampleKey — return default
   return SAMPLE_DATASETS.kirana_store;
 }
 
