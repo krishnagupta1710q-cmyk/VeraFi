@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import config
 
 app = FastAPI(title="VeraFi Backend")
 
@@ -11,4 +12,3 @@ def read_root():
 @app.get("/health")
 def health_check():
     return {"status": "healthy"}
-
