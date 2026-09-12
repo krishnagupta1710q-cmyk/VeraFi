@@ -125,4 +125,5 @@ export const INITIAL_LENDER_LOANS = [
     sample_key: "kirana_store"
   }
 ];
-
+// Alias for lenderService.js compatibility
+export const mockLoans = INITIAL_LENDER_LOANS;
