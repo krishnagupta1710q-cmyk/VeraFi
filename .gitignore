@@ -35,6 +35,8 @@ wheels/
 .pytest_cache/
 .coverage
 htmlcov/
+*.db
+*.sqlite3
 
 # Next.js / Frontend
 .next/
