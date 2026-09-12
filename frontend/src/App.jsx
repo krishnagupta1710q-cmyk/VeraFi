@@ -1,63 +1,196 @@
-import BorrowerDashboard from './components/BorrowerDashboard';
 import React, { useState } from 'react';
-import Navbar from './components/Navbar';
-import Login from './components/Login';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 
+import Login from './components/Login';
+import ThemeToggle from './components/ThemeToggle';
 import LenderDashboard from './components/LenderDashboard';
+import BorrowerDashboard from './components/BorrowerDashboard';
+
+import BorrowerHome from './pages/BorrowerHome';
+import UploadLedger from './pages/UploadLedger';
+import Verification from './pages/Verification';
+import LedgerPage from './pages/LedgerPage';
+import CreditScorePage from './pages/CreditScorePage';
+
 import { SAMPLE_DATASETS } from './mockData';
 import { uploadLedgerImage } from './services/api';
 
 export default function App() {
+
   const [user, setUser] = useState(null);
-  const [ledgerData, setLedgerData] = useState(SAMPLE_DATASETS.kirana_store);
+
+  const [ledgerData, setLedgerData] = useState(
+    SAMPLE_DATASETS.kirana_store
+  );
+
   const [isLoading, setIsLoading] = useState(false);
+
+
+  /* ================= LOGIN ================= */
 
   const handleLogin = (userData) => {
     setUser(userData);
   };
 
-  const handleLedgerExtracted = async (file, sampleKey) => {
+
+  /* ================= LEDGER ================= */
+
+  const handleLedgerExtracted = async (
+    file,
+    sampleKey = null
+  ) => {
+
     setIsLoading(true);
 
     try {
-      const data = await uploadLedgerImage(file, sampleKey);
+
+      const data = await uploadLedgerImage(
+        file,
+        sampleKey
+      );
+
       setLedgerData(data);
-    } catch (err) {
-      console.error('Failed to extract ledger:', err);
+
+    } catch (error) {
+
+      console.error(
+        'Failed to extract ledger:',
+        error
+      );
+
     } finally {
+
       setIsLoading(false);
+
     }
   };
 
+
+  /* ================= LOGIN SCREEN ================= */
+
   if (!user) {
-    return <Login onLogin={handleLogin} />;
+
+    return (
+      <>
+        <ThemeToggle />
+
+        <Login
+          onLogin={handleLogin}
+        />
+      </>
+    );
   }
 
+
+  /* ================= LENDER ================= */
+
+  if (user.role === 'lender') {
+
+    return (
+      <>
+        <ThemeToggle />
+
+        <LenderDashboard />
+      </>
+    );
+  }
+
+
+  /* ================= BORROWER ================= */
+
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
-      <Navbar
-        activeTab={user.role}
-        setActiveTab={() => {}}
-      />
+    <BrowserRouter>
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  {user.role === 'borrower' ? (
-  <BorrowerDashboard
-    user={user}
-    ledgerData={ledgerData}
-    isLoading={isLoading}
-    onLedgerExtracted={handleLedgerExtracted}
-  />
-) : (
-          <LenderDashboard />
-        )}
-      </main>
+      <ThemeToggle />
 
-      <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-400">
-        <p>
-          VeraFi • AI-Powered Microfinance for the Credit-Invisible • Hackathon Prototype
-        </p>
-      </footer>
-    </div>
+      <Routes>
+
+        <Route
+          path="/borrower"
+          element={
+            <BorrowerDashboard
+              user={user}
+            />
+          }
+        >
+
+          {/* Dashboard */}
+          <Route
+            index
+            element={
+              <BorrowerHome
+                user={user}
+                ledgerData={ledgerData}
+              />
+            }
+          />
+
+
+          {/* Upload */}
+          <Route
+            path="upload"
+            element={
+              <UploadLedger
+                onLedgerExtracted={
+                  handleLedgerExtracted
+                }
+                isLoading={isLoading}
+              />
+            }
+          />
+
+
+          {/* AI Verification */}
+          <Route
+            path="verification"
+            element={
+              <Verification />
+            }
+          />
+
+
+          {/* Ledger */}
+          <Route
+            path="ledger"
+            element={
+              <LedgerPage
+                ledgerData={ledgerData}
+              />
+            }
+          />
+
+
+          {/* Credit Score */}
+          <Route
+            path="credit-score"
+            element={
+              <CreditScorePage
+                ledgerData={ledgerData}
+              />
+            }
+          />
+
+        </Route>
+
+
+        {/* Fallback */}
+        <Route
+          path="*"
+          element={
+            <Navigate
+              to="/borrower"
+              replace
+            />
+          }
+        />
+
+      </Routes>
+
+    </BrowserRouter>
   );
 }
