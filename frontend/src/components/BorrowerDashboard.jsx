@@ -7,6 +7,7 @@ export default function BorrowerDashboard({
   user,
   ledgerData,
   isLoading,
+  setIsLoading,
   onLedgerExtracted,
 }) {
   return (
@@ -28,6 +29,7 @@ export default function BorrowerDashboard({
       <UploadSection
         onLedgerExtracted={onLedgerExtracted}
         isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
 
       {/* Ledger */}

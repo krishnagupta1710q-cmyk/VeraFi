@@ -9,7 +9,7 @@ import { uploadLedgerImage } from './services/api';
 
 export default function App() {
   const [user, setUser] = useState(null);
-  const [ledgerData, setLedgerData] = useState(SAMPLE_DATASETS.kirana_store);
+  const [ledgerData, setLedgerData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = (userData) => {
@@ -18,12 +18,14 @@ export default function App() {
 
   const handleLedgerExtracted = async (file, sampleKey) => {
     setIsLoading(true);
+    console.log('[VeraFi] Upload started:', { file: file?.name, sampleKey });
 
     try {
       const data = await uploadLedgerImage(file, sampleKey);
+      console.log('[VeraFi] Data received:', data);
       setLedgerData(data);
     } catch (err) {
-      console.error('Failed to extract ledger:', err);
+      console.error('[VeraFi] Failed to extract ledger:', err);
     } finally {
       setIsLoading(false);
     }
@@ -46,6 +48,7 @@ export default function App() {
     user={user}
     ledgerData={ledgerData}
     isLoading={isLoading}
+    setIsLoading={setIsLoading}
     onLedgerExtracted={handleLedgerExtracted}
   />
 ) : (

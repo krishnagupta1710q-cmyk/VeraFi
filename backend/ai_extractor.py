@@ -66,9 +66,10 @@ async def extract_ledger_from_image(
 
     api_key = GEMINI_API_KEY.strip()
 
-    # 2. Check if API key is present
-    if not api_key or api_key == "your_gemini_api_key_here" or not image_bytes:
-        logger.info("Using mock ledger data (no Gemini key or image provided).")
+    # 2. Check if API key is a real Gemini key (all real keys start with 'AIza')
+    key_looks_real = api_key and api_key.startswith("AIza") and len(api_key) > 20
+    if not key_looks_real or not image_bytes:
+        logger.info("Using mock ledger data (no valid Gemini key or no image bytes).")
         return SAMPLE_LEDGERS["kirana_store"]
 
     # 3. Call Gemini Vision
