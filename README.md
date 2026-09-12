@@ -192,7 +192,9 @@ Result: A transparent score between **300 and 850** with an explanation of risk 
 Developed with ❤️ for the Hackathon by CSE undergraduates:
 - **Krishna Gupta** ([@krishnagupta1710q-cmyk](https://github.com/krishnagupta1710q-cmyk))
 - **Janamjai** ([@Jnmj-dev](https://github.com/Jnmj-dev))
-
+- **Sagar Thakur**([@sagarthakur09]https://github.com/sagarthakur09)
+- **Kriti Singh**([kriti7277]https://github.com/kriti7277)
+- **soumya madhyan**([Soumyamadhyan]https://github.com/Soumyamadhyan)
 ---
 
 ## 📄 License
