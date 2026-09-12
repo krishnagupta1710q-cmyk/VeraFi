@@ -1,9 +1,8 @@
+import BorrowerDashboard from './components/BorrowerDashboard';
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
-import UploadSection from './components/UploadSection';
-import LedgerViewer from './components/LedgerViewer';
-import ScoreCard from './components/ScoreCard';
+
 import LenderDashboard from './components/LenderDashboard';
 import { SAMPLE_DATASETS } from './mockData';
 import { uploadLedgerImage } from './services/api';
@@ -42,22 +41,14 @@ export default function App() {
       />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {user.role === 'borrower' ? (
-          <div>
-            <UploadSection
-              onLedgerExtracted={handleLedgerExtracted}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-            />
-
-            <LedgerViewer ledgerData={ledgerData} />
-
-            <ScoreCard
-              verascore={ledgerData?.verascore}
-              merchantName={ledgerData?.merchant_name}
-            />
-          </div>
-        ) : (
+  {user.role === 'borrower' ? (
+  <BorrowerDashboard
+    user={user}
+    ledgerData={ledgerData}
+    isLoading={isLoading}
+    onLedgerExtracted={handleLedgerExtracted}
+  />
+) : (
           <LenderDashboard />
         )}
       </main>
