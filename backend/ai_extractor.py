@@ -121,5 +121,5 @@ async def extract_ledger_from_image(
         return data
 
     except Exception as e:
-        logger.warning(f"Gemini OCR processing failed: {e}. Falling back to sample dataset.")
-        return SAMPLE_LEDGERS["kirana_store"]
+        logger.error(f"Gemini OCR FAILED: {type(e).__name__}: {e}")
+        raise RuntimeError(f"Gemini Vision failed: {type(e).__name__}: {e}")

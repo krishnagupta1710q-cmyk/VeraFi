@@ -116,8 +116,36 @@ def health_check():
     return {
         "status": "healthy",
         "gemini_api_configured": bool(config.GEMINI_API_KEY.strip()),
+        "gemini_key_prefix": config.GEMINI_API_KEY.strip()[:6] + "...",
         "database": "sqlite_ready"
     }
+
+
+@app.get("/api/test-gemini")
+async def test_gemini():
+    """Diagnostic: tests if the Gemini API key works by sending a simple text prompt."""
+    api_key = config.GEMINI_API_KEY.strip()
+    if not api_key or len(api_key) < 10:
+        return {"status": "error", "message": "No API key configured in backend/.env"}
+    try:
+        from google import genai
+        client = genai.Client(api_key=api_key)
+        response = client.models.generate_content(
+            model="gemini-1.5-flash",
+            contents="Reply with exactly: GEMINI_KEY_WORKS"
+        )
+        return {
+            "status": "success",
+            "key_prefix": api_key[:8] + "...",
+            "gemini_response": response.text.strip()
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "key_prefix": api_key[:8] + "...",
+            "error_type": type(e).__name__,
+            "error": str(e)
+        }
 
 
 @app.post("/api/upload-ledger", response_model=LedgerResponse)
