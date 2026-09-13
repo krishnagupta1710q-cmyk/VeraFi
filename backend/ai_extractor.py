@@ -79,6 +79,17 @@ async def extract_ledger_from_image(
 
         client = genai.Client(api_key=api_key)
 
+        # Auto-detect the right model for this API key
+        model_to_use = GEMINI_MODEL
+        try:
+            available = [m.name for m in client.models.list()]
+            flash_models = [m for m in available if "flash" in m.lower()]
+            if flash_models:
+                model_to_use = flash_models[0]
+                logger.info(f"Using auto-detected model: {model_to_use}")
+        except Exception:
+            logger.info(f"Could not list models, using default: {model_to_use}")
+
         prompt = """
         You are an expert financial auditor and OCR engine for Indian informal microfinance.
         Analyze this handwritten merchant paper ledger (Bahi-Khata / Khatabook / Receipt).
@@ -106,7 +117,7 @@ async def extract_ledger_from_image(
         """
 
         response = client.models.generate_content(
-            model=GEMINI_MODEL,
+            model=model_to_use,
             contents=[
                 types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg"),
                 prompt

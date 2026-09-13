@@ -123,20 +123,30 @@ def health_check():
 
 @app.get("/api/test-gemini")
 async def test_gemini():
-    """Diagnostic: tests if the Gemini API key works by sending a simple text prompt."""
+    """Diagnostic: lists available models and tests the Gemini API key."""
     api_key = config.GEMINI_API_KEY.strip()
     if not api_key or len(api_key) < 10:
         return {"status": "error", "message": "No API key configured in backend/.env"}
     try:
         from google import genai
         client = genai.Client(api_key=api_key)
+
+        # List all models available for this key
+        all_models = [m.name for m in client.models.list()]
+        flash_models = [m for m in all_models if "flash" in m.lower()]
+
+        # Use the first available flash model
+        model_to_use = flash_models[0] if flash_models else (all_models[0] if all_models else config.GEMINI_MODEL)
+
         response = client.models.generate_content(
-            model="gemini-1.5-flash",
+            model=model_to_use,
             contents="Reply with exactly: GEMINI_KEY_WORKS"
         )
         return {
             "status": "success",
             "key_prefix": api_key[:8] + "...",
+            "model_used": model_to_use,
+            "flash_models_available": flash_models[:6],
             "gemini_response": response.text.strip()
         }
     except Exception as e:
