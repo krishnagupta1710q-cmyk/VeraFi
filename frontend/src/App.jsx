@@ -4,28 +4,29 @@ import Navbar from './components/Navbar';
 import Login from './components/Login';
 
 import LenderDashboard from './components/LenderDashboard';
-import { SAMPLE_DATASETS } from './mockData';
 import { uploadLedgerImage } from './services/api';
 
 export default function App() {
   const [user, setUser] = useState(null);
   const [ledgerData, setLedgerData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadError, setUploadError] = useState(null);
 
   const handleLogin = (userData) => {
     setUser(userData);
   };
 
-  const handleLedgerExtracted = async (file, sampleKey) => {
+  const handleLedgerExtracted = async (file) => {
     setIsLoading(true);
-    console.log('[VeraFi] Upload started:', { file: file?.name, sampleKey });
+    setUploadError(null);
+    setLedgerData(null);
 
     try {
-      const data = await uploadLedgerImage(file, sampleKey);
-      console.log('[VeraFi] Data received:', data);
+      const data = await uploadLedgerImage(file);
       setLedgerData(data);
     } catch (err) {
-      console.error('[VeraFi] Failed to extract ledger:', err);
+      console.error('[VeraFi] Upload failed:', err);
+      setUploadError(err.message || 'Upload failed. Make sure the backend is running.');
     } finally {
       setIsLoading(false);
     }
@@ -49,6 +50,7 @@ export default function App() {
     ledgerData={ledgerData}
     isLoading={isLoading}
     setIsLoading={setIsLoading}
+    uploadError={uploadError}
     onLedgerExtracted={handleLedgerExtracted}
   />
 ) : (

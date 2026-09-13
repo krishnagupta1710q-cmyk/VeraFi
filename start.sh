@@ -65,3 +65,4 @@ trap "echo 'Shutting down...'; kill $BACKEND_PID 2>/dev/null; exit" INT TERM
 
 # Start frontend (foreground)
 ./node_modules/.bin/vite
+
