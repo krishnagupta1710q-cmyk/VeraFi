@@ -35,14 +35,15 @@ def _get_gemini_client():
 
 def _resolve_model_name(client) -> str:
     """
-    Auto-detects the most suitable vision model for the configured API key.
-    Prioritizes Gemini Flash models.
+    Returns configured model (gemini-3.6-flash) or discovers available vision models.
     """
+    configured = config.GEMINI_MODEL.strip()
+    if configured:
+        return configured
+
     try:
         models = list(client.models.list())
         model_names = [m.name for m in models]
-        
-        # Look for flash models
         flash_candidates = [
             m for m in model_names
             if "flash" in m.lower() and "embed" not in m.lower()
@@ -53,12 +54,11 @@ def _resolve_model_name(client) -> str:
             return selected
             
         if model_names:
-            logger.info(f"Falling back to first available model: {model_names[0]}")
             return model_names[0]
     except Exception as e:
         logger.warning(f"Could not query models.list(): {e}. Using default.")
 
-    return config.GEMINI_MODEL
+    return "gemini-3.6-flash"
 
 
 EXTRACTION_PROMPT = """

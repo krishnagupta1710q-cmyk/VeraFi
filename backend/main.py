@@ -94,7 +94,7 @@ async def test_gemini():
             client = genai.Client(api_key=api_key)
         all_models = [m.name for m in client.models.list()]
         flash_models = [m for m in all_models if "flash" in m.lower() and "embed" not in m.lower()]
-        selected_model = flash_models[0] if flash_models else (all_models[0] if all_models else config.GEMINI_MODEL)
+        selected_model = config.GEMINI_MODEL or (flash_models[0] if flash_models else (all_models[0] if all_models else "gemini-3.6-flash"))
 
         response = client.models.generate_content(
             model=selected_model,
