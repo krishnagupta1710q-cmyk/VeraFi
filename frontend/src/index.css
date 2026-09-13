@@ -4,7 +4,113 @@
 
 @layer base {
   body {
-    @apply antialiased text-slate-800 bg-slate-50;
+    @apply antialiased text-stone-900 bg-[#FAF6EE];
+    background-color: #FAF6EE;
+    background-image: 
+      radial-gradient(#E8DEC8 0.75px, transparent 0.75px),
+      radial-gradient(#E8DEC8 0.75px, #FAF6EE 0.75px);
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
   }
 }
 
+/* Vintage Notebook Styles */
+.font-serif-vintage {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-handwriting {
+  font-family: 'Caveat', cursive;
+}
+
+.font-ledger-mono {
+  font-family: 'Space Mono', monospace;
+}
+
+/* Lined notebook ledger paper */
+.ledger-paper {
+  background-color: #FFFDF9;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 27px,
+    #F1E8D9 28px
+  );
+  box-shadow: 
+    0 4px 20px -2px rgba(90, 70, 50, 0.08),
+    0 2px 6px -1px rgba(90, 70, 50, 0.04),
+    inset 0 0 40px rgba(220, 200, 170, 0.15);
+}
+
+/* Red ledger margin line */
+.red-ledger-margin {
+  position: relative;
+}
+.red-ledger-margin::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3rem;
+  width: 2px;
+  background-color: rgba(220, 38, 38, 0.25);
+  pointer-events: none;
+}
+
+/* Vintage rubber stamp */
+.stamp-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  border-width: 2px;
+  border-style: dashed;
+  border-radius: 6px;
+  padding: 0.25rem 0.65rem;
+  text-shadow: 0.5px 0.5px 0 rgba(0, 0, 0, 0.05);
+  mask-image: radial-gradient(circle at center, black 85%, transparent 100%);
+}
+
+.stamp-verified {
+  border-color: #B91C1C;
+  color: #B91C1C;
+  background-color: rgba(185, 28, 28, 0.04);
+  transform: rotate(-3deg);
+}
+
+.stamp-approved {
+  border-color: #15803D;
+  color: #15803D;
+  background-color: rgba(21, 128, 61, 0.05);
+  transform: rotate(2deg);
+}
+
+/* Photo corner photo mount */
+.photo-mount {
+  position: relative;
+  background: #F4EFE6;
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 0 4px 15px rgba(60, 45, 30, 0.12);
+}
+.photo-mount::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 24px;
+  height: 24px;
+  border-top: 3px solid #C5A880;
+  border-right: 3px solid #C5A880;
+}
+.photo-mount::before {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: -6px;
+  width: 24px;
+  height: 24px;
+  border-bottom: 3px solid #C5A880;
+  border-left: 3px solid #C5A880;
+}

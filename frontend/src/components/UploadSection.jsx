@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { UploadCloud, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
+import { Camera, UploadCloud, CheckCircle2, Loader2, AlertCircle, Sparkles, FileImage } from 'lucide-react';
 
 export default function UploadSection({ onLedgerExtracted, isLoading, setIsLoading, uploadError }) {
   const [dragActive, setDragActive] = useState(false);
@@ -33,37 +33,49 @@ export default function UploadSection({ onLedgerExtracted, isLoading, setIsLoadi
 
   const handleFileSelected = (file) => {
     setSelectedFileName(file.name);
-    setIsLoading(true);
+    if (setIsLoading) setIsLoading(true);
     onLedgerExtracted(file);
   };
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-      <div className="mb-6">
-        <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-          <span>Upload Handwritten Ledger</span>
-          <span className="text-xs bg-amber-100 text-amber-800 font-semibold px-2 py-0.5 rounded-full border border-amber-200">
-            Gemini Vision AI
+    <div className="bg-[#FFFDF9] rounded-2xl p-6 sm:p-8 border-2 border-[#D8C7B0] shadow-md ledger-paper relative">
+      
+      {/* Header section with vintage stamps */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b-2 border-dashed border-[#E3D4BF]">
+        <div>
+          <div className="flex items-center gap-2.5">
+            <h2 className="text-xl font-bold font-serif-vintage text-stone-900">
+              1. Scan Physical Notebook Page
+            </h2>
+            <span className="stamp-seal stamp-verified text-[10px]">
+              AI OCR Ready
+            </span>
+          </div>
+          <p className="text-xs text-stone-600 mt-1">
+            Snap a clear photo of your paper *khatabook*, diary register, or cash memo receipt.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="text-[11px] font-mono text-stone-500 bg-[#FAF6EE] px-2.5 py-1 rounded border border-stone-300">
+            Supports Hindi & English Handwriting
           </span>
-        </h2>
-        <p className="text-sm text-slate-500 mt-0.5">
-          Take a photo of your physical khatabook, bahi-khata, or paper receipt. Gemini AI will read and extract all transactions automatically.
-        </p>
+        </div>
       </div>
 
-      {/* Drag & Drop Box */}
+      {/* Main Drag & Drop Zone */}
       <div
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
         onClick={() => !isLoading && fileInputRef.current?.click()}
-        className={`border-2 border-dashed rounded-xl p-10 text-center transition-all ${
+        className={`border-3 border-dashed rounded-2xl p-8 sm:p-12 text-center transition-all cursor-pointer relative overflow-hidden ${
           isLoading
-            ? 'border-slate-200 bg-slate-50 cursor-not-allowed'
+            ? 'border-stone-300 bg-amber-50/30 cursor-not-allowed'
             : dragActive
-            ? 'border-emerald-500 bg-emerald-50/50 cursor-pointer'
-            : 'border-slate-300 hover:border-emerald-500 hover:bg-slate-50/80 cursor-pointer'
+            ? 'border-[#8B261E] bg-[#FFF8F6] scale-[1.01]'
+            : 'border-[#C8B69F] hover:border-[#8B261E] hover:bg-[#FDFBF7]'
         }`}
       >
         <input
@@ -75,53 +87,68 @@ export default function UploadSection({ onLedgerExtracted, isLoading, setIsLoadi
           disabled={isLoading}
         />
 
-        <div className="max-w-md mx-auto flex flex-col items-center">
-          <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4">
+        <div className="max-w-md mx-auto flex flex-col items-center relative z-10">
+          {/* Central Circular Seal Icon */}
+          <div className="w-18 h-18 rounded-2xl bg-[#FAF6EE] border-2 border-[#D8C7B0] text-[#8B261E] flex items-center justify-center mb-4 shadow-sm">
             {isLoading ? (
-              <Loader2 className="w-8 h-8 animate-spin" />
+              <Loader2 className="w-9 h-9 animate-spin text-[#8B261E]" />
             ) : (
-              <UploadCloud className="w-8 h-8" />
+              <Camera className="w-9 h-9" />
             )}
           </div>
 
           {isLoading ? (
-            <div>
-              <p className="text-base font-semibold text-slate-800">
-                Gemini AI is reading your ledger...
+            <div className="space-y-2">
+              <div className="flex items-center justify-center gap-2 text-stone-900 font-bold font-serif-vintage text-lg">
+                <Sparkles className="w-4 h-4 text-amber-600 animate-pulse" />
+                <span>Gemini Vision Parsing Handwriting...</span>
+              </div>
+              <p className="text-xs text-stone-600">
+                Auditing debit/credit entries, calculating daily velocity, and computing your VeraScore™.
               </p>
-              <p className="text-xs text-slate-500 mt-1">
-                Extracting transactions, dates, amounts, and calculating VeraScore.
-              </p>
+              <div className="w-48 mx-auto bg-stone-200 h-1.5 rounded-full overflow-hidden mt-3">
+                <div className="bg-[#8B261E] h-full w-2/3 animate-pulse rounded-full" />
+              </div>
             </div>
           ) : (
             <div>
-              <p className="text-base font-semibold text-slate-800">
+              <p className="text-lg font-bold font-serif-vintage text-stone-900">
                 {selectedFileName && !uploadError ? (
-                  <span className="flex items-center justify-center gap-1.5 text-emerald-700">
-                    <CheckCircle2 className="w-4 h-4" />
-                    {selectedFileName}
+                  <span className="flex items-center justify-center gap-2 text-[#15803D]">
+                    <CheckCircle2 className="w-5 h-5" />
+                    <span>Loaded: {selectedFileName}</span>
                   </span>
                 ) : (
-                  <>Click to upload or drag & drop your ledger photo</>
+                  <>Click to Snap or Drop Ledger Photo</>
                 )}
               </p>
-              <p className="text-xs text-slate-500 mt-1">
-                JPG, PNG, WebP — photo of handwritten paper ledger or receipt
+              <p className="text-xs text-stone-500 mt-1.5">
+                Accepts JPG, PNG, WebP (from phone camera or local gallery)
               </p>
+
+              {/* Action pill button */}
+              <div className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#8B261E] hover:bg-[#721E18] text-amber-100 text-xs font-bold uppercase tracking-wider shadow-sm transition-all">
+                <UploadCloud className="w-4 h-4" />
+                <span>Choose Image from Device</span>
+              </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Error message */}
+      {/* Error alert notice */}
       {uploadError && (
-        <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-          <div>
-            <p className="text-sm font-semibold text-red-800">Upload failed</p>
-            <p className="text-xs text-red-600 mt-0.5">{uploadError}</p>
-            <p className="text-xs text-slate-500 mt-2">
-              Make sure the backend is running: <code className="bg-slate-100 px-1 rounded">cd backend && python main.py</code>
+        <div className="mt-5 p-4 bg-[#FEF2F2] border-2 border-red-300 rounded-xl flex items-start gap-3 shadow-sm">
+          <AlertCircle className="w-5 h-5 text-red-700 flex-shrink-0 mt-0.5" />
+          <div className="text-left">
+            <p className="text-xs font-bold text-red-900 uppercase tracking-wider">
+              OCR Processing Notice
+            </p>
+            <p className="text-xs text-red-800 mt-1 font-mono break-all">
+              {uploadError}
+            </p>
+            <p className="text-[11px] text-stone-600 mt-2">
+              Tip: Verify your Gemini key in <code className="bg-stone-100 px-1 py-0.5 rounded text-stone-800 font-mono">backend/.env</code> or check <code className="bg-stone-100 px-1 py-0.5 rounded text-stone-800 font-mono">http://localhost:8000/api/test-gemini</code>.
             </p>
           </div>
         </div>
