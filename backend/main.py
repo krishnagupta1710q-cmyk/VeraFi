@@ -87,7 +87,11 @@ async def test_gemini():
 
     try:
         from google import genai
-        client = genai.Client(api_key=api_key)
+        if api_key.startswith("AQ.") or api_key.startswith("ya29."):
+            import google.oauth2.credentials
+            client = genai.Client(credentials=google.oauth2.credentials.Credentials(api_key))
+        else:
+            client = genai.Client(api_key=api_key)
         all_models = [m.name for m in client.models.list()]
         flash_models = [m for m in all_models if "flash" in m.lower() and "embed" not in m.lower()]
         selected_model = flash_models[0] if flash_models else (all_models[0] if all_models else config.GEMINI_MODEL)

@@ -16,14 +16,21 @@ logger = logging.getLogger(__name__)
 
 
 def _get_gemini_client():
-    """Initializes Google GenAI client with key from config."""
-    api_key = config.GEMINI_API_KEY.strip()
-    if not api_key:
+    """Initializes Google GenAI client supporting both API keys and OAuth tokens."""
+    token = config.GEMINI_API_KEY.strip()
+    if not token:
         raise ValueError(
             "GEMINI_API_KEY is not configured. Please set GEMINI_API_KEY in backend/.env"
         )
     from google import genai
-    return genai.Client(api_key=api_key)
+
+    # Check if token is an OAuth access token (starts with AQ. or ya29.)
+    if token.startswith("AQ.") or token.startswith("ya29."):
+        import google.oauth2.credentials
+        creds = google.oauth2.credentials.Credentials(token)
+        return genai.Client(credentials=creds)
+
+    return genai.Client(api_key=token)
 
 
 def _resolve_model_name(client) -> str:
