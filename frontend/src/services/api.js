@@ -17,8 +17,14 @@ export async function uploadLedgerImage(file) {
   });
 
   if (!response.ok) {
-    const err = await response.text();
-    throw new Error(`Backend error ${response.status}: ${err}`);
+    let message = `Server error (${response.status})`;
+    try {
+      const errJson = await response.json();
+      if (errJson.detail) message = errJson.detail;
+    } catch {
+      message = await response.text();
+    }
+    throw new Error(message);
   }
 
   return await response.json();
