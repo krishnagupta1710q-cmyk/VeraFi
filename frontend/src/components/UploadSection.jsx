@@ -38,15 +38,15 @@ export default function UploadSection({ onLedgerExtracted, isLoading, setIsLoadi
   };
 
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+    <div className="bg-paper p-6 border-2 border-ink shadow-vintage">
       <div className="mb-6">
-        <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+        <h2 className="text-xl font-serif font-bold text-ink flex items-center gap-2">
           <span>Upload Handwritten Ledger</span>
-          <span className="text-xs bg-amber-100 text-amber-800 font-semibold px-2 py-0.5 rounded-full border border-amber-200">
+          <span className="text-xs bg-vintage-gold text-ink font-bold px-2 py-0.5 border-2 border-ink uppercase tracking-wider">
             Gemini Vision AI
           </span>
         </h2>
-        <p className="text-sm text-slate-500 mt-0.5">
+        <p className="text-sm font-mono text-ink-light mt-1">
           Take a photo of your physical khatabook, bahi-khata, or paper receipt. Gemini AI will read and extract all transactions automatically.
         </p>
       </div>
@@ -58,12 +58,12 @@ export default function UploadSection({ onLedgerExtracted, isLoading, setIsLoadi
         onDragOver={handleDrag}
         onDrop={handleDrop}
         onClick={() => !isLoading && fileInputRef.current?.click()}
-        className={`border-2 border-dashed rounded-xl p-10 text-center transition-all ${
+        className={`border-2 border-dashed border-ink p-10 text-center transition-all ${
           isLoading
-            ? 'border-slate-200 bg-slate-50 cursor-not-allowed'
+            ? 'bg-paper-dark cursor-not-allowed'
             : dragActive
-            ? 'border-emerald-500 bg-emerald-50/50 cursor-pointer'
-            : 'border-slate-300 hover:border-emerald-500 hover:bg-slate-50/80 cursor-pointer'
+            ? 'bg-brand-100 cursor-pointer'
+            : 'bg-paper-light hover:bg-brand-50 cursor-pointer'
         }`}
       >
         <input
@@ -76,28 +76,28 @@ export default function UploadSection({ onLedgerExtracted, isLoading, setIsLoadi
         />
 
         <div className="max-w-md mx-auto flex flex-col items-center">
-          <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4">
+          <div className="w-16 h-16 bg-paper flex items-center justify-center border-2 border-ink shadow-vintage-hover mb-4">
             {isLoading ? (
-              <Loader2 className="w-8 h-8 animate-spin" />
+              <Loader2 className="w-8 h-8 animate-spin text-ink" />
             ) : (
-              <UploadCloud className="w-8 h-8" />
+              <UploadCloud className="w-8 h-8 text-ink" />
             )}
           </div>
 
           {isLoading ? (
             <div>
-              <p className="text-base font-semibold text-slate-800">
+              <p className="text-base font-serif font-bold text-ink">
                 Gemini AI is reading your ledger...
               </p>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs font-mono text-ink-light mt-1">
                 Extracting transactions, dates, amounts, and calculating VeraScore.
               </p>
             </div>
           ) : (
             <div>
-              <p className="text-base font-semibold text-slate-800">
+              <p className="text-base font-serif font-bold text-ink">
                 {selectedFileName && !uploadError ? (
-                  <span className="flex items-center justify-center gap-1.5 text-emerald-700">
+                  <span className="flex items-center justify-center gap-1.5 text-brand-700">
                     <CheckCircle2 className="w-4 h-4" />
                     {selectedFileName}
                   </span>
@@ -105,7 +105,7 @@ export default function UploadSection({ onLedgerExtracted, isLoading, setIsLoadi
                   <>Click to upload or drag & drop your ledger photo</>
                 )}
               </p>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-xs font-mono text-ink-light mt-1">
                 JPG, PNG, WebP — photo of handwritten paper ledger or receipt
               </p>
             </div>
@@ -115,13 +115,13 @@ export default function UploadSection({ onLedgerExtracted, isLoading, setIsLoadi
 
       {/* Error message */}
       {uploadError && (
-        <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+        <div className="mt-4 p-4 bg-vintage-red/10 border-2 border-vintage-red flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-vintage-red flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-semibold text-red-800">Upload failed</p>
-            <p className="text-xs text-red-600 mt-0.5">{uploadError}</p>
-            <p className="text-xs text-slate-500 mt-2">
-              Make sure the backend is running: <code className="bg-slate-100 px-1 rounded">cd backend && python main.py</code>
+            <p className="text-sm font-bold text-vintage-red font-serif">Upload failed</p>
+            <p className="text-xs text-ink mt-0.5 font-mono">{uploadError}</p>
+            <p className="text-xs text-ink-light mt-2 font-mono">
+              Make sure the backend is running: <code className="bg-paper-dark px-1 border border-ink">cd backend && python main.py</code>
             </p>
           </div>
         </div>

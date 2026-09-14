@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Building2, Check, X, ShieldAlert, Award, ArrowUpRight, TrendingUp, CheckCircle2 } from 'lucide-react';
+import { Award, CheckCircle2, ChevronRight, Download, Check, X, Building2 } from 'lucide-react';
 import { fetchLenderLoans, submitLoanDecision } from '../services/api';
 
 export default function LenderDashboard({ onInspectApplication }) {
@@ -35,28 +35,28 @@ export default function LenderDashboard({ onInspectApplication }) {
   return (
     <div className="space-y-6">
       {/* Header Banner */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-paper p-6 border-2 border-ink shadow-vintage flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-black text-slate-900">MFI Loan Underwriting Portal</h2>
-            <span className="text-xs bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full border border-indigo-200">
+            <h2 className="text-2xl font-serif font-bold text-ink">MFI Loan Underwriting Portal</h2>
+            <span className="text-xs bg-brand-100 text-brand-700 font-bold px-2 py-0.5 border-2 border-brand-700 uppercase tracking-wider">
               Institutional View
             </span>
           </div>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs font-mono text-ink-light mt-1">
             Review alternative creditworthiness backed by verified handwritten cash ledgers.
           </p>
         </div>
 
         {/* Stats Grid */}
         <div className="flex items-center gap-3">
-          <div className="bg-slate-50 border border-slate-200 px-3 py-2 rounded-xl text-right">
-            <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Pipeline Capital</span>
-            <p className="text-sm font-extrabold text-slate-900">₹{totalCapitalRequested.toLocaleString('en-IN')}</p>
+          <div className="bg-paper-dark border-2 border-ink px-3 py-2 shadow-[2px_2px_0px_rgba(44,42,37,1)] text-right">
+            <span className="text-[10px] uppercase font-bold font-mono text-ink-light tracking-wider">Pipeline Capital</span>
+            <p className="text-sm font-serif font-bold text-ink">₹{totalCapitalRequested.toLocaleString('en-IN')}</p>
           </div>
-          <div className="bg-emerald-50 border border-emerald-100 px-3 py-2 rounded-xl text-right">
-            <span className="text-[10px] uppercase font-bold text-emerald-700 tracking-wider">Approved Loans</span>
-            <p className="text-sm font-extrabold text-emerald-800">{approvedCount}</p>
+          <div className="bg-brand-50 border-2 border-brand-600 px-3 py-2 shadow-[2px_2px_0px_rgba(58,99,71,1)] text-right">
+            <span className="text-[10px] uppercase font-bold font-mono text-brand-700 tracking-wider">Approved Loans</span>
+            <p className="text-sm font-serif font-bold text-brand-700">{approvedCount}</p>
           </div>
         </div>
       </div>
@@ -64,10 +64,10 @@ export default function LenderDashboard({ onInspectApplication }) {
       {/* Action Notification */}
       {actionNotice && (
         <div
-          className={`p-4 rounded-xl text-xs font-semibold flex items-center gap-2 border transition-all ${
+          className={`p-4 text-xs font-mono font-bold flex items-center gap-2 border-2 shadow-vintage ${
             actionNotice.type === 'success'
-              ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-              : 'bg-rose-50 text-rose-800 border-rose-200'
+              ? 'bg-brand-50 text-brand-700 border-brand-600'
+              : 'bg-vintage-red/10 text-vintage-red border-vintage-red'
           }`}
         >
           <CheckCircle2 className="w-4 h-4" />
@@ -76,67 +76,67 @@ export default function LenderDashboard({ onInspectApplication }) {
       )}
 
       {/* Loans Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div className="p-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-          <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+      <div className="bg-paper border-2 border-ink shadow-vintage overflow-hidden">
+        <div className="p-4 border-b-2 border-ink bg-paper-dark flex items-center justify-between">
+          <h3 className="text-xs font-bold font-mono text-ink uppercase tracking-wider">
             Applicant Queue ({loans.length})
           </h3>
-          <span className="text-xs text-slate-500">Live MFI Feed</span>
+          <span className="text-xs font-mono text-ink-light">Live MFI Feed</span>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50/50 text-slate-500 font-semibold border-b border-slate-100">
+          <table className="w-full text-left text-xs font-mono">
+            <thead className="bg-paper-dark text-ink font-bold border-b-2 border-ink">
               <tr>
-                <th className="py-3 px-4">Merchant Name</th>
-                <th className="py-3 px-4">Category / Location</th>
-                <th className="py-3 px-4">Requested</th>
-                <th className="py-3 px-4">VeraScore</th>
-                <th className="py-3 px-4">Risk Profile</th>
-                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4 border-r-2 border-ink">Merchant Name</th>
+                <th className="py-3 px-4 border-r-2 border-ink">Category / Location</th>
+                <th className="py-3 px-4 border-r-2 border-ink">Requested</th>
+                <th className="py-3 px-4 border-r-2 border-ink">VeraScore</th>
+                <th className="py-3 px-4 border-r-2 border-ink">Risk Profile</th>
+                <th className="py-3 px-4 border-r-2 border-ink">Status</th>
                 <th className="py-3 px-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 text-slate-700">
+            <tbody className="divide-y-2 divide-ink text-ink bg-paper">
               {loans.map((loan) => (
-                <tr key={loan.id} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-3.5 px-4 font-semibold text-slate-900">
+                <tr key={loan.id} className="hover:bg-paper-light transition-colors">
+                  <td className="py-3.5 px-4 font-bold font-serif text-ink border-r-2 border-ink">
                     {loan.merchant_name}
                   </td>
-                  <td className="py-3.5 px-4 text-slate-500">
-                    <div>{loan.business_type}</div>
-                    <div className="text-[10px] text-slate-400">{loan.location}</div>
+                  <td className="py-3.5 px-4 text-ink-light border-r-2 border-ink">
+                    <div className="font-bold">{loan.business_type}</div>
+                    <div className="text-[10px] text-ink-light/80">{loan.location}</div>
                   </td>
-                  <td className="py-3.5 px-4 font-mono font-bold text-slate-900">
+                  <td className="py-3.5 px-4 font-bold text-ink border-r-2 border-ink font-serif text-sm">
                     ₹{loan.requested_amount?.toLocaleString('en-IN')}
                   </td>
-                  <td className="py-3.5 px-4">
-                    <span className="inline-flex items-center gap-1 font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200">
-                      <Award className="w-3.5 h-3.5 text-amber-500" />
+                  <td className="py-3.5 px-4 border-r-2 border-ink">
+                    <span className="inline-flex items-center gap-1 font-bold text-ink bg-vintage-gold/20 px-2 py-0.5 border-2 border-ink">
+                      <Award className="w-3.5 h-3.5 text-vintage-gold" />
                       {loan.verascore}
                     </span>
                   </td>
-                  <td className="py-3.5 px-4">
+                  <td className="py-3.5 px-4 border-r-2 border-ink">
                     <span
-                      className={`px-2 py-0.5 rounded-full text-[11px] font-semibold border ${
+                      className={`px-2 py-0.5 text-[11px] font-bold border-2 uppercase tracking-wider ${
                         loan.verascore >= 700
-                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          ? 'bg-brand-50 text-brand-700 border-brand-600'
                           : loan.verascore >= 600
-                          ? 'bg-amber-50 text-amber-700 border-amber-200'
-                          : 'bg-rose-50 text-rose-700 border-rose-200'
+                          ? 'bg-vintage-gold/20 text-ink border-ink'
+                          : 'bg-vintage-red/10 text-vintage-red border-vintage-red'
                       }`}
                     >
                       {loan.risk_level}
                     </span>
                   </td>
-                  <td className="py-3.5 px-4">
+                  <td className="py-3.5 px-4 border-r-2 border-ink">
                     <span
-                      className={`capitalize px-2 py-0.5 rounded-full text-[11px] font-semibold ${
+                      className={`uppercase tracking-wider px-2 py-0.5 text-[11px] font-bold border-2 ${
                         loan.status === 'approved'
-                          ? 'bg-emerald-100 text-emerald-800'
+                          ? 'bg-brand-100 text-brand-800 border-brand-600'
                           : loan.status === 'rejected'
-                          ? 'bg-rose-100 text-rose-800'
-                          : 'bg-slate-100 text-slate-700'
+                          ? 'bg-vintage-red/10 text-vintage-red border-vintage-red'
+                          : 'bg-paper-dark text-ink border-ink'
                       }`}
                     >
                       {loan.status}
@@ -148,20 +148,20 @@ export default function LenderDashboard({ onInspectApplication }) {
                         <button
                           type="button"
                           onClick={() => handleDecision(loan.id, 'approve')}
-                          className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-2.5 py-1 rounded-lg text-xs flex items-center gap-1 transition-all"
+                          className="bg-brand-600 hover:bg-brand-700 text-paper font-bold px-2.5 py-1 text-xs flex items-center gap-1 transition-all border-2 border-ink shadow-[1px_1px_0px_rgba(44,42,37,1)]"
                         >
                           <Check className="w-3.5 h-3.5" /> Approve
                         </button>
                         <button
                           type="button"
                           onClick={() => handleDecision(loan.id, 'reject')}
-                          className="bg-slate-200 hover:bg-rose-100 text-slate-700 hover:text-rose-700 font-semibold px-2.5 py-1 rounded-lg text-xs flex items-center gap-1 transition-all"
+                          className="bg-paper-dark hover:bg-vintage-red/10 text-ink hover:text-vintage-red border-2 border-ink font-bold px-2.5 py-1 text-xs flex items-center gap-1 transition-all shadow-[1px_1px_0px_rgba(44,42,37,1)]"
                         >
                           <X className="w-3.5 h-3.5" /> Reject
                         </button>
                       </div>
                     ) : (
-                      <span className="text-[11px] font-medium text-slate-400">Decision Recorded</span>
+                      <span className="text-[11px] font-bold text-ink-light uppercase">Decision Recorded</span>
                     )}
                   </td>
                 </tr>
@@ -173,4 +173,3 @@ export default function LenderDashboard({ onInspectApplication }) {
     </div>
   );
 }
-

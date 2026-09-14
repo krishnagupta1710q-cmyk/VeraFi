@@ -37,7 +37,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-paper">
       <Navbar
         activeTab={user.role}
         setActiveTab={() => {}}
@@ -58,7 +58,7 @@ export default function App() {
         )}
       </main>
 
-      <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-400">
+      <footer className="border-t-2 border-ink bg-paper-dark py-6 text-center text-xs text-ink-light font-mono">
         <p>
           VeraFi • AI-Powered Microfinance for the Credit-Invisible • Hackathon Prototype
         </p>

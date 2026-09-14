@@ -15,9 +15,9 @@ export default function BorrowerDashboard({
     <div>
       {/* Welcome section */}
       <div className="mb-8">
-        <p className="text-sm text-slate-500">Welcome back</p>
-        <h1 className="text-3xl font-bold text-slate-900 mt-1">{user?.name}</h1>
-        <p className="text-slate-500 mt-2">
+        <p className="text-sm font-mono text-ink-light uppercase tracking-widest">Welcome back</p>
+        <h1 className="text-4xl font-serif font-bold text-ink mt-2">{user?.name}</h1>
+        <p className="font-mono text-ink-light mt-2 border-l-4 border-brand-500 pl-4 py-1">
           Upload a photo of your financial ledger to build your credit profile.
         </p>
       </div>
