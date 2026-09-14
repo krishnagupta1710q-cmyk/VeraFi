@@ -139,4 +139,4 @@ Returns the `verascore` object defined above.
   "message": "Loan successfully approved and ready for instant disbursement."
 }
 ```
-
+  
