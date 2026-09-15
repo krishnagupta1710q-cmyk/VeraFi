@@ -8,7 +8,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/Frontend-React-61DAFB?logo=react&logoColor=black)](https://reactjs.org)
-[![Gemini](https://img.shields.io/badge/AI_Vision-Gemini_1.5_Flash-4285F4?logo=google&logoColor=white)](https://ai.google.dev/)
+[![Gemini](https://img.shields.io/badge/AI_Vision-Gemini_3.6_Flash-4285F4?logo=google&logoColor=white)](https://ai.google.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
